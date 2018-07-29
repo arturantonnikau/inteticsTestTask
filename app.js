@@ -248,7 +248,7 @@ app.get("/androids/create/", function(request, response){
 	})
 })
 
-app.get("/about/", function(request, response){
+app.get("/about/", ensureAuthenticated, function(request, response){
 	fs.readFile("./about.html", function(err, data){
 		response.writeHead(200, {"Content-Type": "text/html"})
 		response.end(data)
