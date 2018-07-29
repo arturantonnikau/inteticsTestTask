@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AndroidCrud</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+  <style type="text/css">
+  		#header{
+  			color: green;
+  			font-weight: bold;
+  		}
+      #field{
+        color: blue;
+        font-weight: bold;
+      }
+
+  </style>
+</head>
+<body>
+  <!-- NAVBAR STARTS -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">AndroidsHandler</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/androids/">Androids</a></li>
+            <li><a href="/jobs/">Jobs</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="/login/">Login</a></li>
+            <li><a href="/register/">Register</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!--NAVBAR ENDS-->
+<br>
+<br>
+
+<div ng-app="androidsHandler" ng-controller="androidsCtrl" class="container">
+		<div class="row">
+			<div class="col-sm-12 col-md-12">
+        <center>
+						<h2 id="header"> ABOUT </h2>
+            <h3> Android [humanoid robot] Manager </h3>
+        </center>
+            <p><b>Application Goals</b><br>
+- register Androids living among humans<br>
+- assign Androids to a suitable job<br><br>
+<b>Application Functionality</b><br>
+1. The Operator of the application is a main user of the application. There can be an
+infinite number of Operators. Can be created manually.<br>
+- The Operator should be able to login to the application.<br>
+2. The Operator can create/read/update/delete (CRUD) Jobs or Androids.<br>
+3. Job includes:<br>
+- name (Alphanumeric, hyphen | min-length: 2, max-length: 16)<br>
+- description (max-length: 255)<br>
+- complexity level (for future statistics purposes)<br>
+4. Android includes:<br>
+- name (Alphanumeric, hyphen | min-length: 5, max-length: 24)<br>
+- avatar<br>
+- skills (list of tags)<br>
+- reliability (default value is 10), decreasing every time when Job is changed.<br>
+When reaches 0 change Android status to 0<br>
+- status (1 or 0, 0 means Android should be reclaimed)<br>
+5. Operator should have an ability to CRUD Android and Job via user interface<br>
+6. Operator should have an ability to assign Android to Job.<br>
+7. On the Job page there should be a list of assigned Androids.</p>
+			</div>
+		</div>
+
+		<div class="row" id="field">
+      <!--ITERATING USERS LIST-->
+      <center>
+
+      </center>
+    <!--ROW ENDS-->
+</div>
+
+<script>
+	  var app = angular.module('androidsHandler', [])
+	  app.controller('androidsCtrl', function($scope, $http) {
+        $http.get("/about/").then(function (response) {
+          console.log(response.data)
+        })
+  	})
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AndroidCrud</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+  <style type="text/css">
+  		#header{
+  			color: green;
+  			font-weight: bold;
+  		}
+  </style>
+</head>
+<body>
+  <!-- NAVBAR STARTS -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">AndroidsHandler</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/androids/">Androids</a></li>
+            <li><a href="/jobs/">Jobs</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="/login/">Login</a></li>
+            <li><a href="/register/">Register</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!--NAVBAR ENDS-->
+<br>
+<br>
+
+<div ng-app="androidsHandler" ng-controller="androidsCtrl" class="container">
+		<div class="row">
+			<div class="col-sm-12 col-md-12">
+				<center>
+						<h1 id="header"> ASSIGN JOB </h1>
+				</center>
+			</div>
+		</div>
+
+		<div class="row justify-content-center" >
+      <!--ITERATING USERS LIST-->
+      <div class="col-sm-6 col-md-2 col-md-offset-5 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+        <div class="repeat" ng-repeat="job in jobs">
+        <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action">ID-{{job.ID}} JOB NAME: {{job.name}}</a>
+            <div class="btn-group btn-group-justified" role="group" aria-label="JobsRows">
+              <a href="#" role="button" class="btn btn-primary" ng-click="assignJob(job.ID)">ASSIGN</a>
+            </div>
+        </div>
+      </div>
+      </div>
+		</div>
+    <!--ROW ENDS-->
+</div>
+
+<script>
+	var app = angular.module('androidsHandler', [])
+	app.controller('androidsCtrl', function($scope, $http) {
+
+    $http.get("/api/jobs/").then(function (response) {
+        console.log(response.data)
+        $scope.jobs = response.data
+    });
+
+    var androidId = 0;
+    if(localStorage){
+      try {
+        androidId = localStorage.getItem("androidId")
+      } catch(err) {
+          alert("Something unexpected happened, "+err)
+          return
+      }
+    } else {
+      alert("No support of localStorage")
+      return
+    }
+
+    $scope.assignJob = function(userId){
+              $http({
+                url: "/api/jobs/assign/"+userId+"/"+androidId,
+                method: "PUT",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                }
+              }).then(
+                function(response){
+                  if(response.status == 200){
+                      alert(response.data.message)
+                      location.href = "/"
+                    }
+                },
+                function(error){
+                  alert(error.message)
+                }
+              )
+        }
+	})
+</script>
+</body>
+</html>

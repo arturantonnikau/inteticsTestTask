@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AndroidCrud</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+  <style type="text/css">
+  		#header{
+  			color: green;
+  			font-weight: bold;
+  		}
+      #field{
+        color: blue;
+        font-weight: bold;
+      }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR STARTS -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">AndroidsHandler</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/androids/">Androids</a></li>
+            <li><a href="/jobs/">Jobs</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="/login/">Login</a></li>
+            <li><a href="/register/">Register</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!--NAVBAR ENDS-->
+<br>
+<br>
+
+<div ng-app="androidsHandler" ng-controller="androidsCtrl" class="container">
+		<div class="row">
+			<div class="col-sm-12 col-md-12">
+				<center>
+						<h2 id="header"> JOB READ </h2>
+				</center>
+			</div>
+		</div>
+
+    <div class="row" id="field">
+      <!--ITERATING USERS LIST-->
+      <center>
+        <p> <b>JOB_ID:<b> {{job.ID}} </p>
+        <p> <b>JOB_NAME:<b> {{job.name}} </p>
+        <p> <b>JOB_DESCRIPTION:<b> {{job.description}} </p>
+        <p> <b>JOB_COMPLEXITY_LEVEL:<b> {{job.complexity_level}}  </p>
+      </center>
+    <!--ROW ENDS-->
+</div>
+
+<script>
+	  var app = angular.module('androidsHandler', [])
+	  app.controller('androidsCtrl', function($scope, $http) {
+        var userId = 0
+        if(localStorage){
+          try {
+            userId = localStorage.getItem("userId")
+          } catch(err) {
+              alert("Something unexpected happened, "+err)
+              return
+          }
+        } else {
+          alert("No support of localStorage")
+          return
+        }
+        console.log(userId);
+
+        $http.get("/api/jobs/"+userId).then(function (response) {
+          console.log(response.data)
+          $scope.job = response.data
+          $scope.skillArray = JSON.parse(response.data.skill)
+          document.getElementById("skill").innerHTML = $scope.skillArray[0]
+        })
+  	})
+
+</script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AndroidCrud</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+  <style type="text/css">
+  		#header{
+  			color: green;
+  			font-weight: bold;
+  		}
+  </style>
+</head>
+<body>
+  <!-- NAVBAR STARTS -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">AndroidsHandler</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/androids/">Androids</a></li>
+            <li><a href="/jobs/">Jobs</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="/login/">Login</a></li>
+            <li><a href="/register/">Register</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!--NAVBAR ENDS-->
+<br>
+<br>
+
+<div ng-app="androidsHandler" ng-controller="androidsCtrl" class="container">
+		<div class="row">
+			<div class="col-sm-12 col-md-12">
+				<center>
+						<h2 id="header"> CREATE NEW ANDROID </h2>
+				</center>
+			</div>
+		</div>
+
+		<div class="row" >
+      <!--ITERATING USERS LIST-->
+		  <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+        <hr>
+		    <div class="thumbnail">
+		      <div class="caption" >
+		      	  <!--FORM STARTS-->
+                <form action="" method="POST" ng-submit="createAndroid()" name="updateForm" id="updateForm">
+
+                  <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="name" class="form-control" id="name" placeholder="Type Android name" name="name" value="" required="true" pattern=".{5,24}" title="Android name length should vary between 5-24" maxlength="24">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="avatar">Avatar</label>
+                    <input type="avatar" class="form-control" id="avatar" placeholder="Type android avatar path:" name="avatar" value="" required="true">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="skill">Skill</label>
+                    <input type="skill" class="form-control" id="skill" placeholder="Type Android skill" name="skill" value="" required="true">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="reliability">Reliability</label>
+                    <input type="reliability" class="form-control" id="reliability" placeholder="Type reliability" name="reliability" value="10" required="true" >
+                  </div>
+
+                  <div class="form-group">
+                    <label for="status">Status</label>
+                    <input type="status" class="form-control" id="status" placeholder="Type status" name="status" value="" required="true" pattern="[01]" title="Android status value should vary between 0-1" maxlength="1">
+                  </div>
+
+                  <input type="submit" class="btn btn-success btn-block" value="Register">
+                  <hr>
+                </form>
+            <!--FORM ENDS-->
+          </div>
+		    </div>
+		  </div>
+		</div>
+    <!--ROW ENDS-->
+</div>
+
+<script>
+	  var app = angular.module('androidsHandler', [])
+	  app.controller('androidsCtrl', function($scope, $http) {
+        $scope.createAndroid = function(){
+            event.preventDefault()
+            var data = {
+                    name: ""+document.forms["updateForm"]["name"].value.trim(),
+                    avatar: ""+document.forms["updateForm"]["avatar"].value.trim(),
+                    skill: ""+document.forms["updateForm"]["skill"].value.trim(),
+                    reliability: ""+document.forms["updateForm"]["reliability"].value.trim(),
+                    status: ""+document.forms["updateForm"]["status"].value.trim()
+            }
+            console.log("DATA: ", data)
+
+              $http({
+                url: "/api/android/create",
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                  },
+                data: data
+              }).then(function(response){
+                  console.log(response)
+                  console.log(response.data)
+                  for(key in response.data){
+                    console.log(key, response[key])
+                  }
+                  if(response.status == 200){
+                      let answerYes = confirm(response.data.message+"\nDo you want to see update on home")
+
+                        location.href = "/androids"
+
+                  } else {
+                    alert(response.data.message)
+                  }
+              },
+                function(error){
+                  alert(error)
+                }
+              )
+          }
+	})
+</script>
+
+</body>
+</html>
