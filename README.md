@@ -1,6 +1,17 @@
 # inteticsTestTask
 Intetics Test Task "Antonnikau Artur"
 
+About installation
+1. Clone a GIT ripository: git clone https://github.com/arturantonnikau/inteticsTestTask.git
+2. Create a DATABASE name(mydb): CREATE DATABASE mydb;
+3. Install a backup mydbdump.sql: 
+  3.1 Open CMD(ADMIN) in MYSQL folder: bin>
+  3.2 connect mydb database with dump(mydbdump.sql): mysql –u[user name] -p[password] -h[hostname] [mydb] < C:\[localpath]\mydbdump.sql
+4. Install bash file install.sh: Open a bash in local directory and write "sh install.sh"
+5. Open a command line and type "node app.js"
+6. Type in browser 127.0.0.1:8080
+
+
 This application it`s a test task. 
 
 Application Goals
@@ -26,13 +37,3 @@ When reaches 0 change Android status to 0
 5. Operator should have an ability to CRUD Android and Job via user interface
 6. Operator should have an ability to assign Android to Job.
 7. On the Job page there should be a list of assigned Androids.
-
-About installation
-1. Clone a GIT ripository: git clone https://github.com/arturantonnikau/inteticsTestTask.git
-2. Create a DATABASE name(mydb): CREATE DATABASE mydb;
-3. Install a backup mydbdump.sql: 
-  3.1 Open CMD(ADMIN) in MYSQL folder: bin>
-  3.2 connect mydb database with dump(mydbdump.sql): mysql –u[user name] -p[password] -h[hostname] [mydb] < C:\[localpath]\mydbdump.sql
-4. Install bash file install.sh: Open a bash in local directory and write "sh install.sh"
-5. Open a command line and type "node app.js"
-6. Type in browser 127.0.0.1:8080
