@@ -34,4 +34,5 @@ About installation
   3.1 Open CMD(ADMIN) in MYSQL folder: bin>
   3.2 connect mydb database with dump(mydbdump.sql): mysql –u[user name] -p[password] -h[hostname] [mydb] < C:\[localpath]\mydbdump.sql
 4. Install bash file install.sh: Open a bash in local directory and write "sh install.sh"
-5. Type in browser 127.0.0.1:8080
+5. Open a command line and type "node app.js"
+6. Type in browser 127.0.0.1:8080
